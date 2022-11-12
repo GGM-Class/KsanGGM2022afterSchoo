@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     private Transform _playerTrm;
     public Transform PlayerTrm => _playerTrm;
 
+    [SerializeField]
+    private Transform _mapTrm;
+
     private void Awake()
     {
         _playerTrm = GameObject.Find("Player").transform;
@@ -18,6 +21,8 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Multiple Gamemanager is running!");
         }
         Instance = this;
+
+        MapManager.Instance = new MapManager(_mapTrm);
     }
 
     
