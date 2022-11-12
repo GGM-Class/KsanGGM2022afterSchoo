@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ public class NevAgent : MonoBehaviour
 
     public float speed = 5f;
     public bool corenrCheck = false;
+
+    //
+    private bool _isMove = false;
+    private int _moveIdx = 0;
+    private Vector3 _nextPos; // 다음 이동 포지션
 
     private Vector3Int _currentPosition; // 현재 타일 위치
     private Vector3Int _destination; //목표 타일 위치
@@ -51,16 +57,43 @@ public class NevAgent : MonoBehaviour
             // cellPos가 갈 수 있는 곳인지 확인
 
             _destination = cellPos;
-            CalcRoute();
-            PrintRoute();
-
+            if (CalcRoute())
+            {
+                PrintRoute();
+                _moveIdx = 0;
+                _isMove = true;
+                SetNextTarget();
+            }
+        }
+        if (_isMove)
+        {
+            Vector3 dir = _nextPos - transform.position;
+            transform.position += dir.normalized * speed * Time.deltaTime;
+            if (dir.magnitude <= 0.1f)
+            {
+                SetNextTarget();
+            }
         }
     }
+
+    private void SetNextTarget()
+    {
+        
+        if(_moveIdx >= _routePath.Count)
+        {
+            _isMove = false;
+            return;
+        }
+        _currentPosition = _routePath[_moveIdx];
+        _nextPos = MapManager.Instance.GetWorldPos(_currentPosition);
+        _moveIdx++;
+    }
+
     private void PrintRoute() //계산 경로 Debug찍기
     {
         _lineRenderer.positionCount = _routePath.Count;
         _lineRenderer.SetPositions(_routePath.Select(p => MapManager.Instance.GetWorldPos(p)).ToArray());
-        
+
         
     }
 
@@ -146,6 +179,8 @@ public class NevAgent : MonoBehaviour
                             exist.G = nextOpenNode.G;
                             exist.F = nextOpenNode.F;
                             exist._parent = nextOpenNode._parent;
+
+                            _openList.Recalc(exist);
                         }
                     }
                     else
@@ -158,7 +193,7 @@ public class NevAgent : MonoBehaviour
     }
     private float CalcH(Vector3Int pos)
     {
-        Vector3 distance = _destination - pos;
+        Vector3Int distance = _destination - pos;
         return distance.magnitude;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PriorityQueue<T> where T : IComparable<T>
@@ -28,6 +29,25 @@ public class PriorityQueue<T> where T : IComparable<T>
                 break;
             }
             // 여기 왔다는 건 다른애가 나보다 커
+            T temp = _heap[now];
+            _heap[now] = _heap[next];
+            _heap[next] = temp;
+
+            now = next;
+        }
+    }
+    public void Recalc(T n)
+    {
+        int now = _heap.IndexOf(n);
+
+        while (now > 0)
+        {
+            int next = (now - 1) / 2;
+            if (_heap[now].CompareTo(_heap[next]) < 0)
+            {
+                break;
+            }
+
             T temp = _heap[now];
             _heap[now] = _heap[next];
             _heap[next] = temp;

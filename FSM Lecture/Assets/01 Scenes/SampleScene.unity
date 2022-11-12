@@ -526,6 +526,7 @@ GameObject:
   - component: {fileID: 411166171}
   - component: {fileID: 411166170}
   - component: {fileID: 411166173}
+  - component: {fileID: 411166174}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -711,6 +712,18 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &411166174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411166169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 990ee8421e397f54c89504ed8f0079f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &460944631
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,6 +983,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _currentState: {fileID: 972576044}
+  viewAngle: 45
+  viewRange: 5
   target: {fileID: 274236255}
 --- !u!50 &757539541
 Rigidbody2D:

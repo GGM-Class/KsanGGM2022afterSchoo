@@ -24,6 +24,10 @@ public class AIBrain : MonoBehaviour
 
     private Dictionary<SkillName, EnemyAttackData> _attackDictinary = new Dictionary<SkillName, EnemyAttackData>();
 
+    public float viewAngle;
+    public float viewRange;
+
+
     public Transform target = null;
 
     private void Awake()
